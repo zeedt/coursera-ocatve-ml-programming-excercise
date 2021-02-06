@@ -71,13 +71,27 @@ Theta2_grad = zeros(size(Theta2));
 %activationSum = zeros(num_labels,1);
 %zeros(size(X, 1), 1)
 %for i=1:num_labels,
-
+a1 = X
+a2 = 0;
+a3=0;
+% First hidden Layer
+layer1RegularizedValue = 0;
 store=zeros(length(X),length(Theta1));
 for i=1:length(Theta1),
     for j=1:length(X),
         store(j,i)=sigmoid(Theta1(i,:) * X(j,:)');
     end
 end
+a2 = store
+
+[rowSize,colSize] = size(Theta1);
+for i=1:rowSize,
+    for j=2:colSize,
+        layer1RegularizedValue=layer1RegularizedValue+(Theta1(i,j)^2);
+    end
+end
+
+% Second hidden Layer
 store=[ones(length(store),1) store];
 zeros(length(store),length(Theta2));
 [rowSize,colSize] = size(Theta2);
@@ -87,7 +101,18 @@ for i=1:rowSize,
       storeLatest(j,i)=sigmoid(Theta2(i,:) * store(j,:)');
     end
 end
+a3 = storeLatest
 
+layer2RegularizedValue = 0;
+
+[rowSize,colSize] = size(Theta2);
+for i=1:rowSize,
+    for j=2:colSize,
+        layer2RegularizedValue=layer2RegularizedValue+(Theta2(i,j)^2);
+    end
+end
+
+% Matrix that shows the label bias. i.e. 1 for the current label, 0 for others 
 innerY = zeros(length(y), num_labels);
 for i=1:length(y),
     for j=1:num_labels,
@@ -96,6 +121,8 @@ for i=1:length(y),
         end
     end 
 end
+
+% Cost function J calculation
 summation = 0;
 for i=1:m,
     innerSum = 0;
@@ -105,13 +132,13 @@ for i=1:m,
     end
     summation = summation + innerSum;
 end
-J=summation/m
-%y
+J=summation/m;
+J=J+((lambda * (layer2RegularizedValue+layer1RegularizedValue))/(2*m));
 
+%diff3=zeros()
+for i = 1:m,
 
-
-
-
+end
 
 
 % -------------------------------------------------------------
