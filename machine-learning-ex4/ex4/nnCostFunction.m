@@ -71,9 +71,7 @@ Theta2_grad = zeros(size(Theta2));
 %activationSum = zeros(num_labels,1);
 %zeros(size(X, 1), 1)
 %for i=1:num_labels,
-a1 = X
-a2 = 0;
-a3=0;
+
 % First hidden Layer
 layer1RegularizedValue = 0;
 store=zeros(length(X),length(Theta1));
@@ -82,7 +80,6 @@ for i=1:length(Theta1),
         store(j,i)=sigmoid(Theta1(i,:) * X(j,:)');
     end
 end
-a2 = store
 
 [rowSize,colSize] = size(Theta1);
 for i=1:rowSize,
@@ -101,7 +98,6 @@ for i=1:rowSize,
       storeLatest(j,i)=sigmoid(Theta2(i,:) * store(j,:)');
     end
 end
-a3 = storeLatest
 
 layer2RegularizedValue = 0;
 
@@ -135,10 +131,30 @@ end
 J=summation/m;
 J=J+((lambda * (layer2RegularizedValue+layer1RegularizedValue))/(2*m));
 
-%diff3=zeros()
-for i = 1:m,
+%Theta1
+%Theta2
+delta1=zeros(size(Theta1));
+delta2=zeros(size(Theta2));
+for i=1:m,
+    a1 = X(i,:);
+    Theta1;
+    z2 = Theta1 * a1';
+    a2 = sigmoid(z2);
+    a2 = [1; a2];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+    
+    %innerY(i,:)'
+    diff3 = a3 - innerY(i,:)';
+    %Theta2
+    %Theta2' * diff3
+    diff2 = Theta2' * (diff3 .* sigmoidGradient(z2));
+    delta1  = delta1 + (diff2(2:end, :) * (a1));
+    delta2 = delta2 + (diff3 * (a2'));
 
 end
+Theta1_grad=delta1/m
+Theta2_grad=delta2/m;
 
 
 % -------------------------------------------------------------
