@@ -60,15 +60,10 @@ for i = 1:m
     trainSetTheta = trainLinearReg(X(1:i,:), y(1:i), lambda);
     [J, grad] = linearRegCostFunction(X(1:i,:), y(1:i), trainSetTheta, 0);
     error_train(i) = J;
-    
-    valSetTheta = trainLinearReg(Xval, yval, lambda);
-
     [J, grad] = linearRegCostFunction(Xval, yval, trainSetTheta, 0);
     error_val(i) = J;
     
 end
-error_train
-error_val
 
 % -------------------------------------------------------------
 
