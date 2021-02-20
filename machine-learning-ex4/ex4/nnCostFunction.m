@@ -99,7 +99,7 @@ for i=1:rowSize,
     end
 end
 
-layer2RegularizedValue = 0;
+layer2RegularizedValue = 0
 
 [rowSize,colSize] = size(Theta2);
 for i=1:rowSize,
