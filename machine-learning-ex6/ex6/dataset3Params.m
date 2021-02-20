@@ -28,11 +28,12 @@ sigma = 0.03;
 CArr = [0.01, 0.02, 0.04, 0.08, 0.1, 0.2, 0.4, 0.8];
 SArr = [0.01, 0.02, 0.04, 0.08, 0.1, 0.2, 0.4, 0.8];
 minError = 5000;
+error = 0;
 for i=1:length(CArr),
     for j=1:length(SArr),
-        model = svmTrain(Xval, yval, CArr(i), @(t)(gaussianKernel(Xval(:,1), Xval(:,2), SArr(j))));
-        predictions = svmPredict(model, Xval);
-        error = mean(double(predictions ~= yval));
+        %model = svmTrain(Xval, yval, CArr(i), @(t)(gaussianKernel(Xval(:,1), Xval(:,2), SArr(j))));
+        %predictions = svmPredict(model, Xval);
+        %error = mean(double(predictions ~= yval));
         if (error < minError),
             minError = error;
             C = CArr(i);
