@@ -31,9 +31,9 @@ minError = 5000;
 error = 0;
 for i=1:length(CArr),
     for j=1:length(SArr),
-        %model = svmTrain(Xval, yval, CArr(i), @(t)(gaussianKernel(Xval(:,1), Xval(:,2), SArr(j))));
-        %predictions = svmPredict(model, Xval);
-        %error = mean(double(predictions ~= yval));
+        model = svmTrain(X, y, CArr(i), @(x1,x2)(gaussianKernel(x1, x2, SArr(j))));
+        predictions = svmPredict(model, Xval);
+        error = mean(double(predictions ~= yval));
         if (error < minError),
             minError = error;
             C = CArr(i);
