@@ -150,22 +150,12 @@ Theta1_grad=delta1/m;
 Theta2_grad=delta2/m;
 
 
+theta1RegSum = (lambda*Theta1)/m;
+theta1RegSum(:,1) = 0;
 
-[rowSize,colSize] = size(Theta1);
-theta1RegSum = zeros(rowSize, colSize);
-for i=1:rowSize,
-    for j=2:colSize,
-        theta1RegSum(i,j)=(lambda*Theta1(i,j))/m;
-    end
-end
+theta2RegSum = (lambda*Theta2)/m;
+theta2RegSum(:,1) = 0;
 
-[rowSize,colSize] = size(Theta2);
-theta2RegSum = zeros(rowSize, colSize);
-for i=1:rowSize,
-    for j=2:colSize,
-        theta2RegSum(i,j)=(lambda*Theta2(i,j))/m;
-    end
-end
 
 
 % -------------------------------------------------------------
