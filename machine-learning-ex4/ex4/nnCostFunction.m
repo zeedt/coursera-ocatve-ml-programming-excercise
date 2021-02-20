@@ -131,31 +131,41 @@ end
 J=summation/m;
 J=J+((lambda * (layer2RegularizedValue+layer1RegularizedValue))/(2*m));
 
-%Theta1
-%Theta2
 delta1=zeros(size(Theta1));
 delta2=zeros(size(Theta2));
 for i=1:m,
     a1 = X(i,:);
-    Theta1;
     z2 = Theta1 * a1';
     a2 = sigmoid(z2);
     a2 = [1; a2];
     z3 = Theta2 * a2;
     a3 = sigmoid(z3);
-    
-    %innerY(i,:)'
     diff3 = a3 - innerY(i,:)';
-    %Theta2
-    %Theta2' * diff3
-    diff2 = Theta2' * (diff3 .* sigmoidGradient(z2));
+    diff2 = (Theta2' * diff3) .* sigmoidGradient([1 ;z2]);
     delta1  = delta1 + (diff2(2:end, :) * (a1));
     delta2 = delta2 + (diff3 * (a2'));
 
 end
-Theta1_grad=delta1/m
+Theta1_grad=delta1/m;
 Theta2_grad=delta2/m;
 
+
+
+[rowSize,colSize] = size(Theta1);
+theta1RegSum = zeros(rowSize, colSize);
+for i=1:rowSize,
+    for j=2:colSize,
+        theta1RegSum(i,j)=(lambda*Theta1(i,j))/m;
+    end
+end
+
+[rowSize,colSize] = size(Theta2);
+theta2RegSum = zeros(rowSize, colSize);
+for i=1:rowSize,
+    for j=2:colSize,
+        theta2RegSum(i,j)=(lambda*Theta2(i,j))/m;
+    end
+end
 
 % -------------------------------------------------------------
 
@@ -163,6 +173,7 @@ Theta2_grad=delta2/m;
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
+grad = [[Theta1_grad+theta1RegSum](:) ; [Theta2_grad+theta2RegSum](:)];
 
 
 end
