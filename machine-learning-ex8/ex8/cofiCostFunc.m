@@ -75,6 +75,19 @@ for j=1:num_users,
 end
 
 
+% Calculate Regulirazion for cost function
+userRegSum = sum(sum(Theta.^2));
+moviesRegSum = sum(sum(X.^2));
+
+J = J + ((lambda*userRegSum)/2) + ((lambda*moviesRegSum)/2);
+
+
+% Calculate Regularisation for grad
+
+X_grad = X_grad(:,:) + (lambda*X(:,:));
+Theta_grad = Theta_grad(:,:) + (lambda*Theta(:,:));
+
+
 
 % =============================================================
 
